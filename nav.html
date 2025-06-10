@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archive</title>
+  <style>
+    @font-face {
+      font-family: 'DungGeunMo';
+      src: url('fonts/DungGeunMo.woff2') format('woff2'),
+           url('fonts/DungGeunMo.woff') format('woff'),
+           url('fonts/DungGeunMo.eot');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('img/ui_아카이브_배경.png') no-repeat center center / cover;
+      overflow: hidden;
+      font-family: 'DungGeunMo', sans-serif;
+      color: white;
+      user-select: none;
+    }
+
+    .archive-wrapper {
+      display: flex;
+      position: absolute;
+      /* top: 277px; */
+      left: 199px;
+    }
+
+    .cycle-container, .memory-container {
+      position: relative;
+      background: transparent;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    .cycle-container {
+      width: 338px;
+      height: 555px;
+      top: 369px;
+      margin-right: 95px;
+    }
+
+    .memory-container {
+      top: 277px;
+      width: 970px;
+      height: 664px;
+    }
+
+    .cycle-inner, .memory-inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .cycle-item {
+      width: 338px;
+      height: 63px;
+      line-height: 63px;
+      font-size: 42px;
+      margin-bottom: 19px;
+      padding-left: 63px;
+      background-color: transparent;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .arrow-icon {
+      position: absolute;
+      width: 63px;
+      height: 63px;
+      left: 0;
+      top: 0;
+      z-index: 2;
+    }
+
+    .highlight-img {
+      position: absolute;
+      width: 338px;
+      height: 63px;
+      left: 0;
+      top: 0;
+      z-index: 1;
+      display: none;
+    }
+
+    .cycle-item.selected .highlight-img {
+      display: block;
+    }
+
+    .memory-line {
+      width: 970px;
+      height: 83px;
+      line-height: 83px;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 5px;
+      border-bottom: 1px solid white;
+      font-size: 24pt;
+      background-color: transparent;
+    }
+
+    .nav-button img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .nav-button {
+      position: absolute;
+      top: 53px;
+      left: 44px;
+      width: 103px;
+      height: 103px;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .nav-toggle-btn {
+      position: fixed;
+      top: 44px;
+      left: 53px;
+      width: 103px;
+      height: 103px;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      z-index: 20;
+    }
+    .nav-toggle-btn img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .nav-bar {
+      position: fixed;
+      top: 11px;
+      left: 9px;
+      width: 402px;
+      height: 1062px;
+      transform: translateX(-402px);
+      transition: transform 0.5s ease;
+      z-index: 15;
+    }
+
+    .nav-bar.show {
+      transform: translateX(0);
+    }
+
+    .nav-bg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .nav-btn {
+      position: absolute;
+      width: 250px;
+      height: 42px;
+      left: 65px;
+      background: none;
+      border: none;
+      padding: 0;
+      z-index: 2;
+      cursor: pointer;
+    }
+    .nav-btn img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .nav-btn.intro { top: 267px; }
+    .nav-btn.input { top: 390px; }
+    .nav-btn.nav { top: 513px; }
+  </style>
+</head>
+<body>
+  <button class="nav-toggle-btn" id="navToggle">
+    <img src="img/ui_네비_버튼_103_103.png" alt="메뉴 버튼" />
+  </button>
+  <div class="nav-bar" id="navBar">
+    <img src="img/ui_네비게이션_바.png" class="nav-bg" />
+    <button class="nav-btn intro"><img src="img/ui_인트로_버튼.png" /></button>
+    <button class="nav-btn input"><img src="img/ui_인풋_버튼.png" /></button>
+    <button class="nav-btn nav"><img src="img/ui_네비게이션_버튼.png" /></button>
+  </div>
+
+  <div class="archive-wrapper">
+    <div class="cycle-container" id="cycleBox">
+      <div class="cycle-inner" id="cycleInner"></div>
+    </div>
+    <div class="memory-container" id="memoryBox">
+      <div class="memory-inner" id="memoryInner"></div>
+    </div>
+  </div>
+
+  <script>
+  const SHEET_URL = "https://opensheet.elk.sh/1cyuLbvsDd84FfcKgKihMuZhQ2LXQtBLTHHpKxsfsvQQ/Sheet1";
+
+  const memoryInner = document.getElementById("memoryInner");
+  const cycleInner = document.getElementById("cycleInner");
+  cycleInner.style.top = '0px';
+  memoryInner.style.top = '0px';
+
+  let isDragging = false;
+  let moved = false;
+
+  fetch(SHEET_URL)
+    .then(res => res.json())
+    .then(data => {
+      const onlyText = data.map(row => row["원래문장"]).filter(Boolean);
+      const grouped = [];
+      for (let i = 0; i < onlyText.length; i += 14) {
+        const slice = onlyText.slice(i, i + 14);
+        grouped.push(slice);
+      }
+      grouped.reverse(); // 최신 그룹이 위로 오도록 순서 뒤집기
+      renderCycleList(grouped);
+    });
+
+  function renderMemory(data) {
+    memoryInner.innerHTML = "";
+    for (let i = 0; i < 14; i++) {
+      const div = document.createElement("div");
+      div.className = "memory-line";
+      div.innerHTML = `<span>${data[i] || ""}</span>`;
+      memoryInner.appendChild(div);
+    }
+    memoryInner.style.top = "0px"; // 항상 맨 위로 리셋
+  }
+
+  function renderCycleList(groups) {
+    cycleInner.innerHTML = "";
+    groups.forEach((group, i) => {
+      const idx = groups.length - i; // 최신이 위로 가도록 번호 역순
+      const item = document.createElement("div");
+      item.className = "cycle-item";
+      item.innerHTML = `
+        <img src="img/ui_.png" class="highlight-img" />
+        <img src="img/arrow.png" class="arrow-icon" />
+        25-06-20.${idx}
+      `;
+
+      item.addEventListener("click", () => {
+        if (moved) return;
+
+        document.querySelectorAll(".cycle-item").forEach(el => {
+          el.classList.remove("selected");
+          el.querySelector(".highlight-img").style.display = "none";
+          el.querySelector(".arrow-icon").src = "img/arrow.png";
+        });
+
+        item.classList.add("selected");
+        item.querySelector(".highlight-img").style.display = "block";
+        item.querySelector(".arrow-icon").src = "img/arrow_selected.png";
+
+        renderMemory(group);
+      });
+
+      // 초기 선택
+      if (i === 0) {
+        item.classList.add("selected");
+        item.querySelector(".highlight-img").style.display = "block";
+        item.querySelector(".arrow-icon").src = "img/arrow_selected.png";
+        renderMemory(group);
+      }
+
+      cycleInner.appendChild(item);
+    });
+  }
+
+  function makeDraggable(container, inner) {
+    let startY = 0;
+    let currentY = 0;
+
+    const onDown = y => {
+      isDragging = true;
+      moved = false;
+      startY = y;
+      currentY = parseInt(inner.style.top || '0', 10);
+    };
+
+    const onMove = y => {
+      if (!isDragging) return;
+      const dy = y - startY;
+      if (Math.abs(dy) > 3) moved = true;
+
+      const containerHeight = container.offsetHeight;
+      const innerHeight = inner.scrollHeight;
+      const minTop = containerHeight - innerHeight;
+
+      let nextTop = currentY + dy;
+      if (nextTop > 0) nextTop = 0;
+      if (nextTop < minTop) nextTop = minTop;
+
+      inner.style.top = `${nextTop}px`;
+    };
+
+    const onUp = () => {
+      isDragging = false;
+      setTimeout(() => { moved = false; }, 100);
+    };
+
+    container.addEventListener('mousedown', e => {
+      e.preventDefault();
+      onDown(e.pageY);
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+    });
+
+    const onMouseMove = e => {
+      e.preventDefault();
+      onMove(e.pageY);
+    };
+
+    const onMouseUp = () => {
+      onUp();
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+
+    container.addEventListener('touchstart', e => {
+      onDown(e.touches[0].pageY);
+      window.addEventListener('touchmove', onTouchMove);
+      window.addEventListener('touchend', onTouchEnd);
+    });
+
+    const onTouchMove = e => onMove(e.touches[0].pageY);
+    const onTouchEnd = () => {
+      onUp();
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onTouchEnd);
+    };
+  }
+
+  makeDraggable(document.getElementById('cycleBox'), cycleInner);
+  makeDraggable(document.getElementById('memoryBox'), memoryInner);
+
+  // 네비게이션 버튼 기능 연결
+  const introBtn = document.querySelector(".nav-btn.intro");
+  const inputBtn = document.querySelector(".nav-btn.input");
+  const archiveBtn = document.querySelector(".nav-btn.nav");
+
+  if (introBtn) {
+    introBtn.addEventListener("click", () => {
+      window.location.href = "intro.html";
+    });
+  }
+  if (inputBtn) {
+    inputBtn.addEventListener("click", () => {
+      window.location.href = "input.html";
+    });
+  }
+  if (archiveBtn) {
+    archiveBtn.addEventListener("click", () => {
+      window.location.href = "nav.html";
+    });
+  }
+  // 네비게이션 토글 버튼 작동 코드 (← 이게 빠져있었어!)
+const navToggle = document.getElementById("navToggle");
+const navBar = document.getElementById("navBar");
+
+if (navToggle && navBar) {
+  navToggle.addEventListener("click", () => {
+    navBar.classList.toggle("show");
+  });
+}
+document.addEventListener("click", (event) => {
+  const navBar = document.getElementById("navBar");
+  const navToggle = document.getElementById("navToggle");
+
+  // 네비게이션 바가 열려있고, 클릭한 대상이 navBar나 toggle 버튼이 아닐 경우 닫기
+  if (
+    navBar.classList.contains("show") &&
+    !navBar.contains(event.target) &&
+    !navToggle.contains(event.target)
+  ) {
+    navBar.classList.remove("show");
+  }
+});
+
+
+</script>
+</body>
+</html>

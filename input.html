@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>화이팅</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- 입력 UI 전체 -->
+    <div class="input-ui">
+      <img src="img/ui_입력칸_베이스.png" class="input-bg">
+
+      <textarea id="memoryInput" placeholder="기억을 입력해주세요."></textarea>
+
+      <button id="submitBtn" class="submit-button">
+        <img src="img/ui_입력칸_버튼.png" alt="완료 버튼">
+      </button>
+
+      <p id="statusMsg"></p>
+    </div>
+    
+  </div>
+
+<!-- 네비게이션 토글 버튼 (상단 고정) -->
+<button class="nav-toggle-btn" id="navToggle">
+  <img src="img/ui_네비_버튼_103_103.png" alt="메뉴버튼">
+</button>
+
+<!-- 네비게이션 바 (기본은 숨김 상태) -->
+<div class="nav-bar" id="navBar">
+  <img src="img/ui_네비게이션_바.png" class="nav-bg">
+
+  <button class="nav-btn intro">
+    <img src="img/ui_인트로_버튼.png" alt="인트로">
+  </button>
+  <button class="nav-btn input">
+    <img src="img/ui_인풋_버튼.png" alt="입력">
+  </button>
+  <button class="nav-btn nav">
+    <img src="img/ui_네비게이션_버튼.png" alt="네비게이션">
+  </button>
+</div>
+
+
+  <!-- 자바스크립트 (기능용) -->
+  <script src="script.js"></script>
+  <script src="submit.js"></script>
+</body>
+</html>
