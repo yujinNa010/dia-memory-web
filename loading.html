@@ -15,17 +15,44 @@
       width: 100vw;
       height: 100vh;
       object-fit: cover;
-      pointer-events: none; /* 사용자가 조작 못하게 */
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
-    <video id="loadingVideo" autoplay muted playsinline>
-        <source src="assets/loading1.mp4" type="video/mp4" />
-        브라우저가 video 태그를 지원하지 않습니다.
-    </video>
+  <video id="loadingVideo" autoplay muted playsinline>
+    <source src="assets/loading1.mp4" type="video/mp4" />
+    브라우저가 video 태그를 지원하지 않습니다.
+  </video>
 
   <script>
+    // TouchDesigner에 신호 전송
+    function sendSignalToTouchDesigner(signal) {
+      fetch("http://192.168.219.109:9980", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ signal: signal })
+      })
+      .then(() => console.log("✅ 전송:", signal))
+      .catch(err => console.error("❗ 전송 실패:", err));
+    }
+
+    // 0,1을 교차로 6번 전송
+    function sendToggleSignals() {
+      const toggleSequence = ['0', '1', '0', '1', '0', '1'];
+      const interval = 300; // 밀리초 간격
+
+      toggleSequence.forEach((val, index) => {
+        setTimeout(() => sendSignalToTouchDesigner(val), index * interval);
+      });
+    }
+
+    // 페이지 로드 시 자동 실행
+    window.onload = function () {
+      sendToggleSignals();
+    };
+
+    // 영상 종료 후 페이지 이동
     const video = document.getElementById("loadingVideo");
     video.addEventListener("ended", () => {
       window.location.href = "intro.html";
