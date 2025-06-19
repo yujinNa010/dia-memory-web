@@ -200,10 +200,10 @@ body {
 
 /* 버튼 각각 위치 (120 + 42 + 81씩 내려감_수정) */
 .nav-btn.intro {
-  top: 210px;
+  top: 220px;
 }
 .nav-btn.input {
-  top: 343px;
+  top: 348px;
 }
 .nav-btn.nav {
   top: 476px;
