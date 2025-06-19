@@ -14,100 +14,109 @@
       font-style: normal;
     }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100vw;
-      height: 100vh;
-      background: url('img/ui_아카이브_배경2.png') no-repeat center center / cover;
-      overflow: hidden;
-      font-family: 'DungGeunMo', sans-serif;
-      color: white;
-      user-select: none;
-    }
+   html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('img/ui_아카이브_배경2.png') no-repeat center center / cover;
+  overflow: hidden;
+  font-family: 'DungGeunMo', sans-serif;
+  color: white;
+  user-select: none;
+}
 
-    .archive-wrapper {
-      display: flex;
-      position: absolute;
-      left: 199px;
-    }
+.archive-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
 
-    .cycle-container, .memory-container {
-      position: relative;
-      background: transparent;
-      overflow: hidden;
-      touch-action: none;
-    }
+.cycle-container {
+  position: absolute;
+  top: 261px;
+  left: 115px;
+  width: 338px;
+  height: 555px;
+  background: transparent;
+  overflow: hidden;
+  touch-action: none;
+}
 
-    .cycle-container {
-      position: absolute;
-      width: 338px;
-      height: 555px;
-      top: 261px;
-      margin-right: 95px;
-    }
+.memory-container {
+  position: absolute;
+  top: 207px;
+  left: 366px;
+  width: 970px;
+  height: 581px;
+  background: transparent;
+  overflow: hidden;
+  touch-action: none;
+}
 
-    .memory-container {
-  position: fixed;
-      top: 207px;
-      left: 366px;
-      width: 970px;
-      height: 581px;
-    }
+.cycle-inner, .memory-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
 
-    .cycle-inner, .memory-inner {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-    }
+.cycle-item {
+  width: 338px;
+  height: 63px;
+  line-height: 63px;
+  font-size: 42px;
+  margin-bottom: 19px;
+  padding-left: 63px;
+  background-color: transparent;
+  position: relative;
+  cursor: pointer;
+}
 
-    .cycle-item {
-      width: 338px;
-      height: 63px;
-      line-height: 63px;
-      font-size: 42px;
-      margin-bottom: 19px;
-      padding-left: 63px;
-      background-color: transparent;
-      position: relative;
-      cursor: pointer;
-    }
+.arrow-icon {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  left: 9px;
+  top: 13.5px; /* (63 - 36) / 2 정중앙 배치 */
+  z-index: 2;
+}
 
-    .arrow-icon {
-      position: absolute;
-      width: 63px;
-      height: 63px;
-      left: 0;
-      top: 0;
-      z-index: 2;
-    }
+.highlight-img {
+  position: absolute;
+  width: 338px;
+  height: 63px;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  display: none;
+}
 
-    .highlight-img {
-      position: absolute;
-      width: 338px;
-      height: 63px;
-      left: 0;
-      top: 0;
-      z-index: 1;
-      display: none;
-    }
+.cycle-item.selected .highlight-img {
+  display: block;
+}
 
-    .cycle-item.selected .highlight-img {
-      display: block;
-    }
+.memory-line {
+  width: 970px;
+  height: 83px;
+  line-height: 83px;
+  padding-left: 5px;
+  border-bottom: 1px solid white;
+  font-size: 21pt;
+  background-color: transparent;
+  font-family: 'DungGeunMo', sans-serif;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-    .memory-line {
-      width: 970px;
-      height: 83px;
-      line-height: 83px;
-      display: flex;
-      justify-content: space-between;
-      padding: 0 5px;
-      border-bottom: 1px solid white;
-      font-size: 24pt;
-      background-color: transparent;
-    }
+.memory-line:first-child {
+  font-size: 18pt;
+}
+
 
     .nav-button img {
       width: 100%;
