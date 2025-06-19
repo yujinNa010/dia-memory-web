@@ -162,7 +162,7 @@ body {
   top: 11px;
   left: 9px;
   width: 402px;
-  height: 697px;
+  height: 600px;
   transform: translateX(-402px); /* 숨김 상태 */
   transition: transform 0.5s ease;
   z-index: 15;
@@ -200,13 +200,13 @@ body {
 
 /* 버튼 각각 위치 (120 + 42 + 81씩 내려감) */
 .nav-btn.intro {
-  top: 267px;
+  top: 274px;
 }
 .nav-btn.input {
-  top: 390px;
+  top: 397px;
 }
 .nav-btn.nav {
-  top: 513px;
+  top: 520px;
 }
 
 
