@@ -10,7 +10,7 @@
 /* 배경 */
 body {
   margin: 0;
-  background: url('img/ui_달포함_뒷배경.png') no-repeat center center fixed;
+  background: url('img/ui_배경2.png') no-repeat center center fixed;
   background-size: cover;
   font-family: 'DungGeunMo', sans-serif;
 }
