@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // 유진이 복사한 웹 앱 URL로 바꿔줘 ↓↓↓↓↓
+    // ✅ 유진이 배포한 웹 앱 URL로 설정 완료!
     const url = `https://script.google.com/macros/s/AKfycbyv93mpOcZaEokGYT56t-eHWXNweFlkz79jOxAJAEMG_tsXpqmbOnUQ8seh4xuKx06kKA/exec?memory=${encodeURIComponent(memory)}`;
 
     fetch(url)
@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "loading.html";
       });      
   });
+
   // ✅ 엔터 키로 제출
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
