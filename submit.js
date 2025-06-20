@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // ✅ 유진이 배포한 웹 앱 URL로 설정 완료!
-    const url = `https://script.google.com/macros/s/AKfycbyv93mpOcZaEokGYT56t-eHWXNweFlkz79jOxAJAEMG_tsXpqmbOnUQ8seh4xuKx06kKA/exec?memory=${encodeURIComponent(memory)}`;
+    // ✅ 새로 배포한 유진의 웹 앱 URL로 설정!
+    const url = `https://script.google.com/macros/s/AKfycby9wLjKMR9uX3sgyObpgsi1d6zlDql-saj9m8jrX13GtietLV9YIKr8aVcwnZqNqxLb5A/exec?memory=${encodeURIComponent(memory)}`;
 
     fetch(url)
       .then((res) => res.text())
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("제출 오류:", err);
         // 🤷‍♀️ 오류여도 로딩화면으로 강제로 이동!
         window.location.href = "loading.html";
-      });      
+      });
   });
 
   // ✅ 엔터 키로 제출
