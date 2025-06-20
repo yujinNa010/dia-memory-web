@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ✅ 새로 배포한 유진의 웹 앱 URL로 설정!
-    const url = `https://script.google.com/macros/s/AKfycby9wLjKMR9uX3sgyObpgsi1d6zlDql-saj9m8jrX13GtietLV9YIKr8aVcwnZqNqxLb5A/exec?memory=${encodeURIComponent(memory)}`;
+    const url = `https://script.google.com/macros/s/AKfycby8EBBpax_Y0bnWNO3hzHzgweTVo23NaxSgzbz-lG8G8Iv_XrNXR8IUH8VmuW0mTiKcSQ/exec?memory=${encodeURIComponent(memory)}`;
 
     fetch(url)
       .then((res) => res.text())
